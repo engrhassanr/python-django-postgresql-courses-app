@@ -1,5 +1,6 @@
 Django>=4.2
 psycopg2-binary
 Pillow
-gunicorn  # Production WSGI server
-whitenoise  # Static file serving in production
+gunicorn
+whitenoise
+dj-database-url
