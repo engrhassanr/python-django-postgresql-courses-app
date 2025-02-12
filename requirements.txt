@@ -1,5 +1,3 @@
-django
-gunicorn
+Django>=4.2
 psycopg2-binary
-pillow
-whitenoise
+Pillow

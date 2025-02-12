@@ -1,12 +1,21 @@
+# Use official Python image
 FROM python:3.11
 
+# Set environment variables
+ENV PYTHONUNBUFFERED=1
+
+# Set the working directory
 WORKDIR /app
 
+# Copy only requirements first (better caching)
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Copy all project files
 COPY . .
 
-EXPOSE 8000
+# Expose port 5000
+EXPOSE 5000
 
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "portfolio.wsgi:application"]
+# Default command (Use python -m django)
+CMD ["python", "-m", "django", "runserver", "0.0.0.0:5000"]
