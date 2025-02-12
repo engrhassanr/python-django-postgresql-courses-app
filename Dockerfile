@@ -3,7 +3,7 @@ FROM python:3.11
 
 # Set environment variables
 ENV PYTHONUNBUFFERED=1
-ENV DJANGO_SETTINGS_MODULE=your_project_name.settings
+ENV DJANGO_SETTINGS_MODULE=portfolio.settings
 
 # Set the working directory
 WORKDIR /app
