@@ -122,27 +122,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
+DEBUG = os.getenv("DEBUG", "False") == "True"
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+ALLOWED_HOSTS = ["your-railway-url.up.railway.app", "localhost"]
 
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / "static"]
-STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATIC_URL = "/static/"
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / "media"
-
-# Whitenoise Middleware (For Serving Static Files)
-MIDDLEWARE = [
-    "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",  # Add this line
-    "django.contrib.sessions.middleware.SessionMiddleware",
-    ...
-]
-
-# Static files storage
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

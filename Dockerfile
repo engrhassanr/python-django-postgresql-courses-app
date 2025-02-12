@@ -21,4 +21,5 @@ RUN python manage.py collectstatic --noinput
 EXPOSE 8000
 
 # Run migrations and start the server
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "portfolio.wsgi:application"]
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "portfolio.wsgi:application"]
+
