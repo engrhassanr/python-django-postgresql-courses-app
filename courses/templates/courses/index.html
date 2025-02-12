@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Django Courses</title>
+
+    {% load static %}
+    <link
+      rel="stylesheet"
+      href="{% static 'courses/bootstrap/bootstrap.min.css' %}"
+    />
+  </head>
+  <body>
+    <main>
+      <section class="py-5 text-center container">
+        <div class="row py-md-5">
+          <div class="col-lg-6 col-md-8 mx-auto">
+            <h1 class="fw-light">Learning Courses</h1>
+            <p class="lead text-body-secondary">
+              Welcome to the Django Courses. We provide 24/7 online learning on
+              Udemy.
+            </p>
+            <!-- Create New Course Button -->
+            <p>
+              <a href="{% url 'create_course' %}" class="btn btn-success my-2"
+                >New Course</a
+              >
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <div class="album py-5 bg-body-tertiary">
+        <div class="container">
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            {% for course in courses %}
+            <div class="col">
+              <div class="card shadow-sm">
+                <img
+                  src="{{ course.image.url }}"
+                  alt="Course Image"
+                  class="card-img-top"
+                  width="100%"
+                  height="225"
+                />
+                <div class="card-body">
+                  <p class="card-text">{{ course.summary }}</p>
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                  >
+                    <div class="btn-group">
+                      <a
+                        href="{% url 'course_detail' course.id %}"
+                        class="btn btn-sm btn-outline-secondary"
+                        >View</a
+                      >
+                      <a
+                        href="{% url 'edit_course' course.id %}"
+                        class="btn btn-sm btn-outline-secondary"
+                        >Edit</a
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="{% static 'courses/bootstrap/bootstrap.min.js' %}"></script>
+  </body>
+</html>

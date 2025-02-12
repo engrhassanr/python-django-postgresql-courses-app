@@ -1,0 +1,50 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+env/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Django stuff:
+db.sqlite3
+*.sqlite3
+/media/
+*.log
+*.pot
+*.pyc
+staticfiles/
+static/
+local_settings.py
+.env
+*.env
+
+# MacOS
+.DS_Store
+
+# VSCode settings
+.vscode/
+
+# PostgreSQL
+*.pgdata
+dump.rdb
+
+# Docker
+*.dockerfile
+docker-compose.yml
+*.tar
+*.log
+
+# Node.js (if using for frontend)
+node_modules/
+npm-debug.log
+yarn-error.log
+yarn.lock
+
+# Ignore compiled code
+*.min.js
+*.min.css
