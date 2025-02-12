@@ -11,15 +11,6 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 import os
 from pathlib import Path
-import dj_database_url
-from pathlib import Path
-
-
-
-DATABASES = {
-    'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
-}
-
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -34,11 +25,7 @@ SECRET_KEY = 'django-insecure-7v*1%@)4myixsh(eebj5yg11c#^#r55s*9a-5ynfo34_)dfj2@
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
-DEBUG = os.getenv("DEBUG", "False") == "True"
-
-# Ensure Railway dynamically assigns the correct port
-PORT = os.getenv("PORT", "8000")
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -135,25 +122,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / "static"]
-STATIC_ROOT = BASE_DIR / "staticfiles"
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / "media"
+# Add this line to set STATIC_ROOT
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# Whitenoise Middleware (For Serving Static Files)
-MIDDLEWARE = [
-    "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",  # Add this line
-    "django.contrib.sessions.middleware.SessionMiddleware",
-    ...
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
 ]
-
-# Static files storage
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
 # Default primary key field type
