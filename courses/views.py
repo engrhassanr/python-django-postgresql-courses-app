@@ -41,10 +41,11 @@ def delete_user(request, user_id):
 
     return render(request, 'users/user_list.html', {'users': User.objects.all()})
 
-# Course Management
+# Course Managements
 def course_list(request):
-    courses = Course.objects.all()
-    return render(request, 'courses/index.html', {'courses': courses})
+    courses = Course.objects.all()  # Fetch all courses
+    return render(request, 'courses/course_list.html', {'courses': courses})
+
 
 def course_detail(request, course_id):
     course = get_object_or_404(Course, id=course_id)
@@ -70,3 +71,13 @@ def edit_course(request, course_id):
     else:
         form = CourseForm(instance=course)
     return render(request, 'courses/course_form.html', {'form': form, 'title': 'Edit Course'})
+
+
+def delete_course(request, course_id):
+    course = get_object_or_404(Course, id=course_id)
+    if request.method == "POST":
+        course.delete()
+        messages.success(request, "Course deleted successfully.")
+        return redirect('course_list')
+
+    return render(request, 'courses/course_list.html', {'courses': Course.objects.all()})

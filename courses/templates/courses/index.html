@@ -24,14 +24,21 @@
             </p>
             <!-- Create New Course & User Buttons -->
             <p>
-              <a href="{% url 'create_course' %}" class="btn btn-success my-2"
-                >New Course</a
-              >
+              <a href="{% url 'create_course' %}" class="btn btn-success my-2">
+                New Course
+              </a>
               <a
                 href="{% url 'user_list' %}"
                 class="btn btn-info my-2 text-white"
-                >Manage Users</a
               >
+                Manage Users
+              </a>
+              <a
+                href="{% url 'course_list' %}"
+                class="btn btn-warning my-2 text-white"
+              >
+                Manage Courses
+              </a>
             </p>
           </div>
         </div>
@@ -63,9 +70,22 @@
                       >
                       <a
                         href="{% url 'edit_course' course.id %}"
-                        class="btn btn-sm btn-outline-secondary"
+                        class="btn btn-sm btn-outline-primary"
                         >Edit</a
                       >
+                      <form
+                        method="POST"
+                        action="{% url 'delete_course' course.id %}"
+                        style="display: inline"
+                      >
+                        {% csrf_token %}
+                        <button
+                          type="submit"
+                          class="btn btn-sm btn-outline-danger"
+                        >
+                          Delete
+                        </button>
+                      </form>
                     </div>
                   </div>
                 </div>
