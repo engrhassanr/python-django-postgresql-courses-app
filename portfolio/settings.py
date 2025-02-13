@@ -78,26 +78,11 @@ WSGI_APPLICATION = 'portfolio.wsgi.application'
 
 
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("DATABASE_NAME", "mydatabase"),
-        "USER": os.getenv("DATABASE_USER", "myuser"),
-        "PASSWORD": os.getenv("DATABASE_PASSWORD", "mypassword"),
-        "HOST": os.getenv("DATABASE_HOST", "localhost" if os.getenv("RUNNING_LOCALLY") else "db"),
-        "PORT": os.getenv("DATABASE_PORT", "5432"),
+DATABASE_URL = os.getenv("DATABASE_URL")
+if DATABASE_URL:
+    DATABASES = {
+        "default": dj_database_url.config(default=DATABASE_URL, conn_max_age=600)
     }
-}
-
-
-# If using a DATABASE_URL from Railway
-DATABASES = {
-    "default": dj_database_url.config(default=os.getenv("DATABASE_URL"), conn_max_age=600)
-}
-
-
-
-
 
 
 
@@ -135,7 +120,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = "/courses/static/"
+STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 
