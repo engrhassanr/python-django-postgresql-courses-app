@@ -20,6 +20,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 CSRF_TRUSTED_ORIGINS = [
     "https://python-django-postgresql-courses.up.railway.app",
 ]
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:8000",  # For local development
+    "http://127.0.0.1:8000",  # Sometimes needed for Django's built-in server
+    "https://python-django-postgresql-courses.up.railway.app",  # Your deployed Railway app
+]
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -30,8 +36,11 @@ SECRET_KEY = 'django-insecure-7v*1%@)4myixsh(eebj5yg11c#^#r55s*9a-5ynfo34_)dfj2@
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["python-django-postgresql-courses.up.railway.app"]
-
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    "python-django-postgresql-courses.up.railway.app",
+]
 
 
 # Application definition
