@@ -55,7 +55,7 @@ def create_course(request):
         form = CourseForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('courses_list')  # Fixed redirect
+            return redirect('course_list')  # Fixed redirect
     else:
         form = CourseForm()
     return render(request, 'courses/course_form.html', {'form': form, 'title': 'Create Course'})
@@ -66,7 +66,7 @@ def edit_course(request, course_id):
         form = CourseForm(request.POST, request.FILES, instance=course)
         if form.is_valid():
             form.save()
-            return redirect('courses_list')  # Fixed redirect
+            return redirect('course_list')  # Fixed redirect
     else:
         form = CourseForm(instance=course)
     return render(request, 'courses/course_form.html', {'form': form, 'title': 'Edit Course'})
@@ -76,6 +76,6 @@ def delete_course(request, course_id):
     if request.method == "POST":
         course.delete()
         messages.success(request, "Course deleted successfully.")
-        return redirect('courses_list')  # Fixed redirect
+        return redirect('course_list')  # Fixed redirect
 
-    return render(request, 'courses/courses_list.html', {'courses': Course.objects.all()})  # Fixed template
+    return render(request, 'courses/course_list.html', {'courses': Course.objects.all()})  # Fixed template
