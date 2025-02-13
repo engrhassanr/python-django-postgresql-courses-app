@@ -18,7 +18,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://python-django-postgresql-courses-django-python.up.railway.app",
+    "https://python-django-postgresql-courses.up.railway.app/",
 ]
 
 # Quick-start development settings - unsuitable for production
@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-7v*1%@)4myixsh(eebj5yg11c#^#r55s*9a-5ynfo34_)dfj2@
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["python-django-postgresql-courses-django-python.up.railway.app"]
+ALLOWED_HOSTS = ["python-django-postgresql-courses.up.railway.app"]
 
 
 
