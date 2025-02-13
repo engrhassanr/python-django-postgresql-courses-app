@@ -91,9 +91,10 @@ DATABASES = {
 
 
 # If using a DATABASE_URL from Railway
-DATABASE_URL = os.getenv("DATABASE_URL")
-if DATABASE_URL:
-    DATABASES["default"] = dj_database_url.config(default=DATABASE_URL, conn_max_age=600)
+DATABASES = {
+    "default": dj_database_url.config(default=os.getenv("DATABASE_URL"), conn_max_age=600)
+}
+
 
 
 
@@ -135,9 +136,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = "/static/"
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]  # Use a valid static folder
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")  # Correct for deployment
-
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 
 
