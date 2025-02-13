@@ -81,10 +81,11 @@ DATABASES = {
         'NAME': os.getenv('DATABASE_NAME', 'mydatabase'),
         'USER': os.getenv('DATABASE_USER', 'myuser'),
         'PASSWORD': os.getenv('DATABASE_PASSWORD', 'mypassword'),
-        'HOST': os.getenv('DATABASE_HOST', 'db'),  # Default to Docker service name
+        'HOST': os.getenv('DATABASE_HOST', 'db'),
         'PORT': os.getenv('DATABASE_PORT', '5432'),
     }
 }
+
 
 
 # Password validation
@@ -122,9 +123,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'courses/static'),
-]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+
 
 
 # Default primary key field type
