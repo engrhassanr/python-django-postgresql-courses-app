@@ -18,7 +18,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://python-django-postgresql-courses.up.railway.app/",
+    "https://python-django-postgresql-courses.up.railway.app",
 ]
 
 # Quick-start development settings - unsuitable for production
