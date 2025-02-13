@@ -4,12 +4,13 @@ from django.contrib import messages
 from .models import Course
 from .forms import CourseForm, UserForm
 
+# User Management
 def create_user(request):
     if request.method == "POST":
         form = UserForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('user_list')  # Redirect to user list page
+            return redirect('user_list')  
     else:
         form = UserForm()
     
@@ -21,7 +22,7 @@ def edit_user(request, user_id):
         form = UserForm(request.POST, instance=user)
         if form.is_valid():
             form.save()
-            return redirect('user_list')  # Redirect to user list page
+            return redirect('user_list')  
     else:
         form = UserForm(instance=user)
 
@@ -30,7 +31,6 @@ def edit_user(request, user_id):
 def user_list(request):
     users = User.objects.all()
     return render(request, 'users/user_list.html', {'users': users})
-
 
 def delete_user(request, user_id):
     user = get_object_or_404(User, id=user_id)
@@ -41,11 +41,10 @@ def delete_user(request, user_id):
 
     return render(request, 'users/user_list.html', {'users': User.objects.all()})
 
-# Course Managements
+# Course Management
 def course_list(request):
-    courses = Course.objects.all()  # Fetch all courses
-    return render(request, 'courses/course_list.html', {'courses': courses})
-
+    courses = Course.objects.all()
+    return render(request, 'courses/index.html', {'courses': courses})
 
 def course_detail(request, course_id):
     course = get_object_or_404(Course, id=course_id)
@@ -56,7 +55,7 @@ def create_course(request):
         form = CourseForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('course_list')  # Redirect to course list
+            return redirect('courses_list')  # Fixed redirect
     else:
         form = CourseForm()
     return render(request, 'courses/course_form.html', {'form': form, 'title': 'Create Course'})
@@ -67,17 +66,16 @@ def edit_course(request, course_id):
         form = CourseForm(request.POST, request.FILES, instance=course)
         if form.is_valid():
             form.save()
-            return redirect('course_list')  # Redirect to course list after saving
+            return redirect('courses_list')  # Fixed redirect
     else:
         form = CourseForm(instance=course)
     return render(request, 'courses/course_form.html', {'form': form, 'title': 'Edit Course'})
-
 
 def delete_course(request, course_id):
     course = get_object_or_404(Course, id=course_id)
     if request.method == "POST":
         course.delete()
         messages.success(request, "Course deleted successfully.")
-        return redirect('course_list')
+        return redirect('courses_list')  # Fixed redirect
 
-    return render(request, 'courses/course_list.html', {'courses': Course.objects.all()})
+    return render(request, 'courses/courses_list.html', {'courses': Course.objects.all()})  # Fixed template

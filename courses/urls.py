@@ -5,10 +5,10 @@ from .views import (
 )
 
 urlpatterns = [
-    path('', course_list, name='course_list'),  # Course list page
+    path('', course_list, name='course_list'),  # Index/Home Page
     path('course/create/', create_course, name='create_course'),
     path('course/edit/<int:course_id>/', edit_course, name='edit_course'),
-    path('course/delete/<int:course_id>/', delete_course, name='delete_course'),  # Fixed delete route
+    path('course/delete/<int:course_id>/', delete_course, name='delete_course'),
 
     # User URLs
     path('users/', user_list, name='user_list'),
@@ -17,5 +17,5 @@ urlpatterns = [
     path('users/delete/<int:user_id>/', delete_user, name='delete_user'),
 
     # Keep course detail at the bottom to prevent conflicts
-    path('<int:course_id>/', course_detail, name='course_detail'),
+    path('course/<int:course_id>/', course_detail, name='course_detail'),
 ]
