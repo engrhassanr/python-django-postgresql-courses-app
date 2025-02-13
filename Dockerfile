@@ -17,6 +17,5 @@ COPY . .
 # Expose port 5000
 EXPOSE 5000
 
-# Default command (Use python -m django)
-CMD ["python", "manage.py", "runserver", "0.0.0.0:5000"]
-
+# Run Django server
+CMD ["sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:5000"]

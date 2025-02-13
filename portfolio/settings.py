@@ -9,7 +9,9 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
+
 import os
+import dj_database_url
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -75,16 +77,26 @@ WSGI_APPLICATION = 'portfolio.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DATABASE_NAME', 'mydatabase'),
-        'USER': os.getenv('DATABASE_USER', 'myuser'),
-        'PASSWORD': os.getenv('DATABASE_PASSWORD', 'mypassword'),
-        'HOST': os.getenv('DATABASE_HOST', 'db'),
-        'PORT': os.getenv('DATABASE_PORT', '5432'),
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.getenv("DATABASE_NAME", "mydatabase"),
+        "USER": os.getenv("DATABASE_USER", "myuser"),
+        "PASSWORD": os.getenv("DATABASE_PASSWORD", "mypassword"),
+        "HOST": os.getenv("DATABASE_HOST", "localhost" if os.getenv("RUNNING_LOCALLY") else "db"),
+        "PORT": os.getenv("DATABASE_PORT", "5432"),
     }
 }
+
+
+# If using a DATABASE_URL from Railway
+DATABASE_URL = os.getenv("DATABASE_URL")
+if DATABASE_URL:
+    DATABASES["default"] = dj_database_url.config(default=DATABASE_URL, conn_max_age=600)
+
+
+
 
 
 
@@ -123,10 +135,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = "/static/"
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "courses/static")]
-
-# Add this for deployment
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]  # Use a valid static folder
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")  # Correct for deployment
 
 
 
