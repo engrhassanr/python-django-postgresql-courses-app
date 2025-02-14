@@ -1,7 +1,9 @@
+
 from django.urls import path
+from .views import register 
 from .views import (
     create_user, edit_user, user_list, delete_user,
-    create_course, edit_course, course_list, course_detail, delete_course
+    create_course, edit_course, course_list, course_detail, delete_course, user_login, register, user_logout
 )
 
 urlpatterns = [
@@ -18,4 +20,12 @@ urlpatterns = [
 
     # Keep course detail at the bottom to prevent conflicts
     path('course/<int:course_id>/', course_detail, name='course_detail'),
+
+    # You'll create this function
+    path('login/', user_login, name='login'),
+    path('logout/', user_logout, name='logout'),
+    path('register/', register, name='register'),
+
+
+
 ]
