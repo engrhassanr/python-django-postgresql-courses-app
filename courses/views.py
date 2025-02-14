@@ -28,7 +28,7 @@ def create_user(request):
     else:
         form = UserForm()
     
-    return render(request, 'auth/user_form.html', {'form': form, 'title': 'Create User'})
+    return render(request, 'users/user_form.html', {'form': form, 'title': 'Create User'})
 
 @login_required
 def edit_user(request, user_id):

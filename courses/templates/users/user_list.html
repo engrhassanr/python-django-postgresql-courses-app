@@ -11,47 +11,74 @@
       crossorigin="anonymous"
     />
   </head>
-  <body class="container mt-4">
-    <h2 class="mb-4">User List</h2>
-    <a href="{% url 'create_user' %}" class="btn btn-success mb-3">
-      Create New User
-    </a>
+  <body>
+    <nav class="navbar navbar-dark bg-dark px-3 header">
+      <div class="container">
+        <!-- Left: App Name -->
+        <a class="navbar-brand text-light" href="{% url 'course_list' %}"
+          >Django Courses</a
+        >
 
-    <table class="table table-bordered">
-      <thead class="table-dark">
-        <tr>
-          <th>ID</th>
-          <th>Username</th>
-          <th>Email</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for user in users %}
-        <tr>
-          <td>{{ user.id }}</td>
-          <td>{{ user.username }}</td>
-          <td>{{ user.email }}</td>
-          <td>
-            <a
-              href="{% url 'edit_user' user.id %}"
-              class="btn btn-primary btn-sm"
-              >Edit</a
-            >
-            <form
-              method="POST"
-              action="{% url 'delete_user' user.id %}"
-              style="display: inline"
-            >
-              {% csrf_token %}
-              <button type="submit" class="btn btn-danger btn-sm">
-                Delete
-              </button>
-            </form>
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+        <!-- Right: Authentication Links -->
+        <div class="d-flex align-items-center">
+          {% if user.is_authenticated %}
+          <span class="me-3 text-light fw-semibold"
+            >Hello, {{ user.username }}</span
+          >
+          <a href="{% url 'logout' %}" class="btn btn-danger btn-sm">Logout</a>
+          {% else %}
+          <a href="{% url 'login' %}" class="btn btn-primary btn-sm me-2"
+            >Login</a
+          >
+          <a href="{% url 'register' %}" class="btn btn-secondary btn-sm"
+            >Register</a
+          >
+          {% endif %}
+        </div>
+      </div>
+    </nav>
+    <div class="container mt-4">
+      <h2 class="mb-4">User List</h2>
+      <a href="{% url 'create_user' %}" class="btn btn-success mb-3">
+        Create New User
+      </a>
+
+      <table class="table table-bordered">
+        <thead class="table-dark">
+          <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+          <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td>
+              <a
+                href="{% url 'edit_user' user.id %}"
+                class="btn btn-primary btn-sm"
+                >Edit</a
+              >
+              <form
+                method="POST"
+                action="{% url 'delete_user' user.id %}"
+                style="display: inline"
+              >
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-sm">
+                  Delete
+                </button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </body>
 </html>
