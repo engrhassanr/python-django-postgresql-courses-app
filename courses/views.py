@@ -18,6 +18,7 @@ def register(request):
     else:
         form = UserCreationForm()
     return render(request, 'auth/register.html', {'form': form})
+@login_required
 def create_user(request):
     if request.method == "POST":
         form = UserForm(request.POST)
@@ -42,10 +43,12 @@ def edit_user(request, user_id):
 
     return render(request, 'users/user_form.html', {'form': form, 'title': 'Edit User'})
 
+@login_required
 def user_list(request):
     users = User.objects.all()
     return render(request, 'users/user_list.html', {'users': users})
 
+@login_required
 def delete_user(request, user_id):
     user = get_object_or_404(User, id=user_id)
     if request.method == "POST":
@@ -64,6 +67,7 @@ def course_detail(request, course_id):
     course = get_object_or_404(Course, id=course_id)
     return render(request, 'courses/course_detail.html', {'course': course})
 
+@login_required
 def create_course(request):
     if request.method == "POST":
         form = CourseForm(request.POST, request.FILES)
