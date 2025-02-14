@@ -5,10 +5,12 @@ from .models import Course
 class CourseForm(forms.ModelForm):
     class Meta:
         model = Course
-        fields = ['image', 'summary']
+        fields = ['image', 'summary', 'description']  # Added description
         widgets = {
-            'summary': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'summary': forms.Textarea(attrs={'class': 'form-control', 'rows': 2}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
         }
+
 
 class UserForm(forms.ModelForm):
     class Meta:

@@ -15,6 +15,7 @@
 
     <style>
       body {
+        position: relative;
         height: 100vh;
         display: flex;
         justify-content: center;
@@ -29,13 +30,44 @@
         width: 100%;
         max-width: 600px;
       }
+      .header {
+        position: absolute;
+        width: 100%;
+        top: 0;
+        left: 0;
+      }
     </style>
   </head>
   <body>
+    <nav class="navbar navbar-dark bg-dark px-3 header">
+      <div class="container">
+        <!-- Left: App Name -->
+        <a class="navbar-brand text-light" href="{% url 'course_list' %}"
+          >Django Courses</a
+        >
+
+        <!-- Right: Authentication Links -->
+        <div class="d-flex align-items-center">
+          {% if user.is_authenticated %}
+          <span class="me-3 text-light fw-semibold"
+            >Hello, {{ user.username }}</span
+          >
+          <a href="{% url 'logout' %}" class="btn btn-danger btn-sm">Logout</a>
+          {% else %}
+          <a href="{% url 'login' %}" class="btn btn-primary btn-sm me-2"
+            >Login</a
+          >
+          <a href="{% url 'register' %}" class="btn btn-secondary btn-sm"
+            >Register</a
+          >
+          {% endif %}
+        </div>
+      </div>
+    </nav>
     <div class="form-container">
       <h4 class="text-center mb-4">
         <h2>
-          {% if form.instance.pk %}Edit Course{% else %}New Course{% endif %}
+          {% if form.instance.pk %}Edit Course{% else %}New Course {% endif%}
         </h2>
       </h4>
       <form method="post" enctype="multipart/form-data">
@@ -52,6 +84,21 @@
             required
           />
           <label for="summary">Course Summary</label>
+        </div>
+
+        <div class="form-floating mb-3">
+          <textarea
+            class="form-control"
+            style="height: 200px"
+            id="description"
+            name="description"
+            placeholder="Course Description"
+            rows="4"
+            required
+          >
+{{ form.description.value|default_if_none:'' }}</textarea
+          >
+          <label for="description">Course Description</label>
         </div>
 
         <div class="form-floating mb-3">
