@@ -18,9 +18,6 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://python-django-postgresql-courses.up.railway.app",
-]
-CSRF_TRUSTED_ORIGINS = [
     "http://localhost:8000",  # For local development
     "http://127.0.0.1:8000",  # Sometimes needed for Django's built-in server
     "https://python-django-postgresql-courses.up.railway.app",  # Your deployed Railway app
@@ -136,6 +133,8 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
+
+
 
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
