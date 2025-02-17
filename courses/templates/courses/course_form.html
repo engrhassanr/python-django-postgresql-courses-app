@@ -15,13 +15,15 @@
     <style>
       body {
         position: relative;
-        height: 100vh;
+        height: 100%;
+        padding: 40px 0;
         display: flex;
         justify-content: center;
         align-items: center;
         background-color: #f8f9fa;
       }
       .form-container {
+        margin-top: 40px;
         background: #fff;
         padding: 2rem;
         border-radius: 10px;
@@ -41,24 +43,15 @@
     <nav class="navbar navbar-dark bg-dark px-3 header">
       <div class="container">
         <!-- Left: App Name -->
-        <a class="navbar-brand text-light" href="{% url 'course_list' %}"
-          >Django Courses</a
-        >
-
+        <a class="navbar-brand text-light" href="{% url 'course_list' %}">Django Courses</a>
         <!-- Right: Authentication Links -->
         <div class="d-flex align-items-center">
           {% if user.is_authenticated %}
-          <span class="me-3 text-light fw-semibold"
-            >Hello, {{ user.username }}</span
-          >
-          <a href="{% url 'logout' %}" class="btn btn-danger btn-sm">Logout</a>
+            <span class="me-3 text-light fw-semibold">Hello, {{ user.username }}</span>
+            <a href="{% url 'logout' %}" class="btn btn-danger btn-sm">Logout</a>
           {% else %}
-          <a href="{% url 'login' %}" class="btn btn-primary btn-sm me-2"
-            >Login</a
-          >
-          <a href="{% url 'register' %}" class="btn btn-secondary btn-sm"
-            >Register</a
-          >
+            <a href="{% url 'login' %}" class="btn btn-primary btn-sm me-2">Login</a>
+            <a href="{% url 'register' %}" class="btn btn-secondary btn-sm">Register</a>
           {% endif %}
         </div>
       </div>
@@ -66,11 +59,24 @@
     <div class="form-container">
       <h4 class="text-center mb-4">
         <h2>
-          {% if form.instance.pk %}Edit Course{% else %}New Course {% endif%}
+          {% if form.instance.pk %}Edit Course{% else %}New Course{% endif %}
         </h2>
       </h4>
       <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
+        
+        <div class="form-floating mb-3">
+          <input
+            type="text"
+            class="form-control"
+            id="title"
+            name="title"
+            placeholder="Course Title"
+            value="{{ form.title.value|default_if_none:'' }}"
+            required
+          />
+          <label for="title">Course Title</label>
+        </div>
 
         <div class="form-floating mb-3">
           <input
@@ -94,9 +100,7 @@
             placeholder="Course Description"
             rows="4"
             required
-          >
-{{ form.description.value|default_if_none:'' }}</textarea
-          >
+          >{{ form.description.value|default_if_none:'' }}</textarea>
           <label for="description">Course Description</label>
         </div>
 
@@ -105,12 +109,82 @@
           <label for="image">Upload Image</label>
         </div>
 
+        <div class="form-floating mb-3">
+          <input
+            type="number"
+            class="form-control"
+            id="price"
+            name="price"
+            placeholder="Course Price"
+            value="{{ form.price.value|default_if_none:'' }}"
+            required
+          />
+          <label for="price">Course Price</label>
+        </div>
+
+        <div class="form-floating mb-3">
+          <input
+            type="text"
+            class="form-control"
+            id="category"
+            name="category"
+            placeholder="Course Category"
+            value="{{ form.category.value|default_if_none:'' }}"
+            required
+          />
+          <label for="category">Course Category</label>
+        </div>
+
+        <div class="form-floating mb-3">
+          <input
+            type="text"
+            class="form-control"
+            id="duration"
+            name="duration"
+            placeholder="Course Duration"
+            value="{{ form.duration.value|default_if_none:'' }}"
+            required
+          />
+          <label for="duration">Course Duration</label>
+        </div>
+
+        <div class="form-floating mb-3">
+          <input
+            type="date"
+            class="form-control"
+            id="start_date"
+            name="start_date"
+            value="{{ form.start_date.value|default_if_none:'' }}"
+          />
+          <label for="start_date">Course Start Date</label>
+        </div>
+
+        <div class="form-floating mb-3">
+          <select class="form-control" id="instructor" name="instructor" required>
+            {% for user in form.instructor.field.queryset %}
+              <option value="{{ user.id }}" {% if form.instructor.value == user.id %}selected{% endif %}>
+                {{ user.username }}
+              </option>
+            {% endfor %}
+          </select>
+          <label for="instructor">Instructor</label>
+        </div>
+
+        <div class="form-check mb-3">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="is_published"
+            name="is_published"
+            {% if form.is_published.value %}checked{% endif %}
+          />
+          <label class="form-check-label" for="is_published">Published</label>
+        </div>
+
         <button type="submit" class="btn btn-success w-100 mt-3">
           {% if form.instance.pk %}Update{% else %}Create{% endif %} Course
         </button>
-        <a href="{% url 'course_list' %}" class="btn btn-secondary w-100 mt-2"
-          >Cancel</a
-        >
+        <a href="{% url 'course_list' %}" class="btn btn-secondary w-100 mt-2">Cancel</a>
       </form>
     </div>
   </body>

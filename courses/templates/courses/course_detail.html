@@ -14,16 +14,54 @@
   </head>
   <body>
     <div class="container mt-5 text-center">
+      <!-- Course Image -->
       <img
-        src="{{ course.image.url }}"
+        src="{% if course.image %}{{ course.image.url }}{% else %}https://lh4.googleusercontent.com/proxy/EWm9FVpPqF7N5rcraSRF-UMDuwBzfkA2tYNH73WwfdaqqrhD7V-TQL22-XP7fOgbjSp4X836b8_TVTYw1JN7bSJuUHbgtMURdiA2n-lyFKYnnpRzFzCJ72kCEw{% endif %}"
         class="img-fluid rounded mx-auto d-block"
         alt="Course Image"
       />
+
+      <!-- Course Title -->
       <h1 class="text-center mt-3">{{ course.summary }}</h1>
+
+      <!-- Course Description -->
       <p class="lead mt-4">{{ course.description }}</p>
-      <a href="{% url 'course_list' %}" class="btn btn-primary mt-3"
-        >Back to Courses</a
-      >
+
+      <!-- Display Course Details -->
+      <div class="row mt-4">
+        <div class="col-md-6">
+          <h5>Price: ${{ course.price }}</h5>
+        </div>
+        <div class="col-md-6">
+          <h5>Category: {{ course.category }}</h5>
+        </div>
+      </div>
+
+      <div class="row mt-3">
+        <div class="col-md-6">
+          <h5>Duration: {{ course.duration }}</h5>
+        </div>
+        <div class="col-md-6">
+          <h5>Start Date: {{ course.start_date|date:"F j, Y" }}</h5>
+        </div>
+      </div>
+
+      <div class="row mt-3">
+        <div class="col-md-6">
+          <h5>Instructor: {{ course.instructor.username }}</h5>
+        </div>
+        <div class="col-md-6">
+          <h5>
+            Status: {% if course.is_published %}Published{% else %}Not
+            Published{% endif %}
+          </h5>
+        </div>
+      </div>
+
+      <!-- Back to Courses Button -->
+      <a href="{% url 'course_list' %}" class="btn btn-primary mt-3">
+        Back to Courses
+      </a>
     </div>
   </body>
 </html>
