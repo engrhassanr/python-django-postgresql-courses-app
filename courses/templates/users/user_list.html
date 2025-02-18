@@ -44,36 +44,27 @@
       </a>
 
       <table class="table table-bordered">
-        <thead class="table-dark">
+        <thead>
           <tr>
-            <th>ID</th>
             <th>Username</th>
             <th>Email</th>
+            <th>Role</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           {% for user in users %}
           <tr>
-            <td>{{ user.id }}</td>
             <td>{{ user.username }}</td>
             <td>{{ user.email }}</td>
+            <td>{{ user.profile.role }}</td>
+            <!-- Display role -->
             <td>
               <a
-                href="{% url 'edit_user' user.id %}"
-                class="btn btn-primary btn-sm"
-                >Edit</a
+                href="{% url 'update_role' user.id %}"
+                class="btn btn-warning btn-sm"
+                >Update Role</a
               >
-              <form
-                method="POST"
-                action="{% url 'delete_user' user.id %}"
-                style="display: inline"
-              >
-                {% csrf_token %}
-                <button type="submit" class="btn btn-danger btn-sm">
-                  Delete
-                </button>
-              </form>
             </td>
           </tr>
           {% endfor %}

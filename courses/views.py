@@ -1,30 +1,37 @@
+# courses/views.py
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate,login, logout
+from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .models import Course
+from .models import Course, Profile
 from .forms import CourseForm, UserForm
+from .forms import ProfileUpdateForm 
 
-# User Management
 def register(request):
+    roles = Profile.ROLE_CHOICES
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
+        role = request.POST.get('role', 'student')  # Ensure a default role
         if form.is_valid():
             user = form.save()
-            login(request, user)  # Log the user in after registration
-            return redirect('course_list')  # Redirect to homepage
+            profile, created = Profile.objects.get_or_create(user=user)
+            profile.role = role
+            profile.save()
+            return redirect('login')
     else:
         form = UserCreationForm()
-    return render(request, 'auth/register.html', {'form': form})
+
+    return render(request, 'auth/register.html', {'form': form, 'roles': roles})
+
 @login_required
 def create_user(request):
     if request.method == "POST":
         form = UserForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('user_list')  
+            return redirect('user_list')
     else:
         form = UserForm()
     
@@ -55,10 +62,8 @@ def delete_user(request, user_id):
         user.delete()
         messages.success(request, "User deleted successfully.")
         return redirect('user_list')
-
     return render(request, 'users/user_list.html', {'users': User.objects.all()})
 
-# Course Management
 def course_list(request):
     courses = Course.objects.all()
     return render(request, 'courses/index.html', {'courses': courses})
@@ -73,11 +78,10 @@ def create_course(request):
         form = CourseForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('course_list')  # Fixed redirect
+            return redirect('course_list')
     else:
         form = CourseForm()
     return render(request, 'courses/course_form.html', {'form': form, 'title': 'Create Course'})
-from django.contrib.auth.decorators import login_required
 
 @login_required
 def edit_course(request, course_id):
@@ -99,6 +103,8 @@ def delete_course(request, course_id):
         messages.success(request, "Course deleted successfully.")
         return redirect('course_list')
     return render(request, 'courses/course_list.html', {'courses': Course.objects.all()})
+
+# user login
 def user_login(request):
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
@@ -108,8 +114,16 @@ def user_login(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
+
+                # Check if the profile exists and set the role in the session
+                try:
+                    profile = user.profile
+                    request.session['role'] = profile.role  # Set the role in session
+                except Profile.DoesNotExist:
+                    request.session['role'] = 'student'  # Fallback to 'student' if no profile
+
                 messages.success(request, "Login successful!")
-                return redirect('course_list')  # Redirect to home after login
+                return redirect('course_list')  # Redirect after successful login
             else:
                 messages.error(request, "Invalid username or password.")
         else:
@@ -125,3 +139,28 @@ def user_logout(request):
     return redirect('login')
 
 
+@login_required
+def update_role(request, user_id):
+    user = User.objects.get(id=user_id)
+    profile, created = Profile.objects.get_or_create(user=user)
+
+    if request.method == "POST":
+        form = ProfileUpdateForm(request.POST, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('user_list')  # Redirect after updating role
+    else:
+        form = ProfileUpdateForm(instance=profile)
+
+    return render(request, "update_role.html", {"form": form, "title": "Update Role"})
+
+def custom_login(request):
+    if request.method == "POST":
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            request.session["role"] = user.profile.role  # Store role in session
+            return redirect("dashboard")  # Redirect after login
+
+    return render(request, "login.html", {"form": form})

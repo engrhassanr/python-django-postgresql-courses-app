@@ -56,6 +56,18 @@
         <label for="password2">Confirm Password</label>
       </div>
 
+      <!-- Role Dropdown -->
+      <div class="form-floating mb-3">
+        <select class="form-control" id="role" name="role" required>
+          <option value="" disabled selected>Select Role</option>
+          {% for role, role_name in roles %}
+          <option value="{{ role }}">{{ role_name }}</option>
+          {% endfor %}
+        </select>
+
+        <label for="role">Role</label>
+      </div>
+
       <button type="submit" class="btn btn-success w-100">Register</button>
     </form>
 

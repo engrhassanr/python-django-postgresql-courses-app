@@ -161,3 +161,10 @@ LOGIN_URL = 'login'
 LOGOUT_REDIRECT_URL = 'login'
 LOGIN_REDIRECT_URL = 'course_list'
 
+
+# settings.py
+
+# Ensure you have the correct session settings
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # Or another appropriate backend
+SESSION_COOKIE_NAME = 'sessionid'  # Default cookie name for the session
+SESSION_COOKIE_AGE = 3600  # The session cookie will expire after 1 hour by default

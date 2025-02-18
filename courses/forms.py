@@ -1,9 +1,7 @@
-# forms.py
 from django import forms
-from django.contrib.auth import get_user_model
-from .models import Course
+from django.contrib.auth.models import User
+from .models import Course, Profile
 
-# CourseForm for creating or editing a course
 class CourseForm(forms.ModelForm):
     class Meta:
         model = Course
@@ -19,14 +17,33 @@ class CourseForm(forms.ModelForm):
             'is_published': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
 
-# UserForm for managing User data
 class UserForm(forms.ModelForm):
+    ROLE_CHOICES = [
+        ('admin', 'Admin'),
+        ('instructor', 'Instructor'),
+        ('student', 'Student'),
+    ]
+
+    role = forms.ChoiceField(
+        choices=ROLE_CHOICES, 
+        widget=forms.Select(attrs={'class': 'form-control'}),
+        required=True
+    )
+
     class Meta:
-        model = get_user_model()  # Dynamically get the User model
+        model = User
         fields = ['username', 'email', 'first_name', 'last_name']
         widgets = {
             'username': forms.TextInput(attrs={'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'first_name': forms.TextInput(attrs={'class': 'form-control'}),
             'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['role']
+        widgets = {
+            'role': forms.Select(attrs={'class': 'form-control'}),
         }
