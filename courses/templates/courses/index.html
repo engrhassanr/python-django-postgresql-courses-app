@@ -157,7 +157,7 @@
       <div class="container">
         <div class="row">
           {% for course in courses %}
-          <div class="col-md-6">
+          <div class="col-md-4">
             <div
               class="text-bg-dark text-center"
               style="border-radius: 21px 21px 0 0"
@@ -172,21 +172,21 @@
                   alt="Course Image"
                   class="card-img-top"
                   width="100%"
-                  height="300"
-                  style="border-radius: 21px 21px 0 0"
+                  height="250"
+                  style="border-radius: 21px 21px 0 0; object-fit: cover"
                 />
                 {% else %}
                 <img
-                  src="/media/images/GAZ+-+Background+Texture+fallback.jpg"
+                  src="https://lh4.googleusercontent.com/proxy/EWm9FVpPqF7N5rcraSRF-UMDuwBzfkA2tYNH73WwfdaqqrhD7V-TQL22-XP7fOgbjSp4X836b8_TVTYw1JN7bSJuUHbgtMURdiA2n-lyFKYnnpRzFzCJ72kCEw"
                   alt="Default Course Image"
                   class="card-img-top"
                   width="100%"
-                  height="300"
-                  style="border-radius: 21px 21px 0 0"
+                  height="250"
+                  style="border-radius: 21px 21px 0 0; object-fit: cover"
                 />
                 {% endif %}
               </div>
-              <div class="px-4 my-5">
+              <div class="px-4 my-3">
                 <h2 class="font-md">{{ course.summary }}</h2>
                 <p class="lead">{{ course.description }}</p>
               </div>
@@ -212,7 +212,6 @@
                   >
                     Edit
                   </a>
-                  {% endif %}
                   <form
                     method="POST"
                     action="{% url 'delete_course' course.id %}"
@@ -223,6 +222,7 @@
                       Delete
                     </button>
                   </form>
+                  {% endif %}
                 </div>
               </div>
             </div>

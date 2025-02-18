@@ -1,192 +1,242 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-      crossorigin="anonymous"
-    />
-    <title>
-      {% if form.instance.pk %}Edit Course{% else %}New Course{% endif %}
-    </title>
-    <style>
-      body {
-        position: relative;
-        height: 100%;
-        padding: 40px 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: #f8f9fa;
-      }
-      .form-container {
-        margin-top: 40px;
-        background: #fff;
-        padding: 2rem;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        width: 100%;
-        max-width: 600px;
-      }
-      .header {
-        position: absolute;
-        width: 100%;
-        top: 0;
-        left: 0;
-      }
-    </style>
-  </head>
-  <body>
-    <nav class="navbar navbar-dark bg-dark px-3 header">
-      <div class="container">
-        <!-- Left: App Name -->
-        <a class="navbar-brand text-light" href="{% url 'course_list' %}">Django Courses</a>
-        <!-- Right: Authentication Links -->
-        <div class="d-flex align-items-center">
-          {% if user.is_authenticated %}
-            <span class="me-3 text-light fw-semibold">Hello, {{ user.username }}</span>
-            <a href="{% url 'logout' %}" class="btn btn-danger btn-sm">Logout</a>
-          {% else %}
-            <a href="{% url 'login' %}" class="btn btn-primary btn-sm me-2">Login</a>
-            <a href="{% url 'register' %}" class="btn btn-secondary btn-sm">Register</a>
-          {% endif %}
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+  <title>
+    {% if form.instance.pk %}Edit Course{% else %}New Course{% endif %}
+  </title>
+  <style>
+    body {
+      position: relative;
+      height: 100%;
+      padding: 40px 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: #f8f9fa;
+    }
+
+    .form-container {
+      margin-top: 40px;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 800px;
+    }
+
+    .header {
+      position: absolute;
+      width: 100%;
+      top: 0;
+      left: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-dark bg-dark px-3 header">
+    <div class="container">
+      <!-- Left: App Name -->
+      <a class="navbar-brand text-light" href="{% url 'course_list' %}">Django Courses</a>
+      <!-- Right: Authentication Links -->
+      <div class="d-flex align-items-center">
+        {% if user.is_authenticated %}
+        <span class="me-3 text-light fw-semibold">Hello, {{ user.username }}</span>
+        <a href="{% url 'logout' %}" class="btn btn-danger btn-sm">Logout</a>
+        {% else %}
+        <a href="{% url 'login' %}" class="btn btn-primary btn-sm me-2">Login</a>
+        <a href="{% url 'register' %}" class="btn btn-secondary btn-sm">Register</a>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+  <div class="form-container">
+    <h4 class="text-center mb-4">
+      <h2>
+        {% if form.instance.pk %}Edit Course{% else %}New Course{% endif %}
+      </h2>
+    </h4>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="title" name="title" placeholder="Course Title"
+          value="{{ form.title.value|default_if_none:'' }}" required />
+        <label for="title">Course Title</label>
+      </div>
+
+      <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="summary" name="summary" placeholder="Course Summary"
+          value="{{ form.summary.value|default_if_none:'' }}" required />
+        <label for="summary">Course Summary</label>
+      </div>
+
+      <div class="form-floating mb-3">
+        <textarea class="form-control" style="height: 200px" id="description" name="description"
+          placeholder="Course Description" rows="4" required>{{ form.description.value|default_if_none:'' }}</textarea>
+        <label for="description">Course Description</label>
+      </div>
+
+      <div class="form-floating mb-3">
+        <input type="file" class="form-control" id="image" name="image" />
+        <label for="image">Upload Image</label>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-floating mb-3">
+            <input type="number" class="form-control" id="price" name="price" placeholder="Course Price"
+              value="{{ form.price.value|default_if_none:'' }}" required />
+            <label for="price">Course Price</label>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="category" name="category" placeholder="Course Category"
+              value="{{ form.category.value|default_if_none:'' }}" required />
+            <label for="category">Course Category</label>
+          </div>
         </div>
       </div>
-    </nav>
-    <div class="form-container">
-      <h4 class="text-center mb-4">
-        <h2>
-          {% if form.instance.pk %}Edit Course{% else %}New Course{% endif %}
-        </h2>
-      </h4>
-      <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        
-        <div class="form-floating mb-3">
-          <input
-            type="text"
-            class="form-control"
-            id="title"
-            name="title"
-            placeholder="Course Title"
-            value="{{ form.title.value|default_if_none:'' }}"
-            required
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="duration" name="duration" placeholder="Course Duration"
+              value="{{ form.duration.value|default_if_none:'' }}" required />
+            <label for="duration">Course Duration</label>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-floating mb-3">
+            <input type="date" class="form-control" id="start_date" name="start_date"
+              value="{{ form.start_date.value|default_if_none:'' }}" />
+            <label for="start_date">Course Start Date</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-floating mb-3">
+        <select class="form-control" id="instructor" name="instructor" required>
+          {% for user in form.instructor.field.queryset %}
+          <option value="{{ user.id }}" {% if form.instructor.value == user.id %}selected{% endif %}>
+            {{ user.username }}
+          </option>
+          {% endfor %}
+        </select>
+        <label for="instructor">Instructor</label>
+      </div>
+
+      <div class="form-check mb-3">
+        <input type="checkbox" class="form-check-input" id="is_published" name="is_published"
+          {% if form.is_published.value %}checked{% endif %} />
+        <label class="form-check-label" for="is_published">Published</label>
+      </div>
+
+      <button type="submit" class="btn btn-success w-100 mt-3">
+        {% if form.instance.pk %}Update{% else %}Create{% endif %} Course
+      </button>
+      <a href="{% url 'course_list' %}" class="btn btn-secondary w-100 mt-2">Cancel</a>
+    </form>
+  </div>
+  <footer class="container py-5">
+    <div class="row">
+      <div class="col-12 col-md">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          fill="none"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          class="d-block mb-2"
+          role="img"
+          viewBox="0 0 24 24"
+        >
+          <title>Product</title>
+          <circle cx="12" cy="12" r="10" />
+          <path
+            d="M14.31 8l5.74 9.94M9.69 8h11.48M7.38 12l5.74-9.94M9.69 16L3.95 6.06M14.31 16H2.83m13.79-4l-5.74 9.94"
           />
-          <label for="title">Course Title</label>
-        </div>
-
-        <div class="form-floating mb-3">
-          <input
-            type="text"
-            class="form-control"
-            id="summary"
-            name="summary"
-            placeholder="Course Summary"
-            value="{{ form.summary.value|default_if_none:'' }}"
-            required
-          />
-          <label for="summary">Course Summary</label>
-        </div>
-
-        <div class="form-floating mb-3">
-          <textarea
-            class="form-control"
-            style="height: 200px"
-            id="description"
-            name="description"
-            placeholder="Course Description"
-            rows="4"
-            required
-          >{{ form.description.value|default_if_none:'' }}</textarea>
-          <label for="description">Course Description</label>
-        </div>
-
-        <div class="form-floating mb-3">
-          <input type="file" class="form-control" id="image" name="image" />
-          <label for="image">Upload Image</label>
-        </div>
-
-        <div class="form-floating mb-3">
-          <input
-            type="number"
-            class="form-control"
-            id="price"
-            name="price"
-            placeholder="Course Price"
-            value="{{ form.price.value|default_if_none:'' }}"
-            required
-          />
-          <label for="price">Course Price</label>
-        </div>
-
-        <div class="form-floating mb-3">
-          <input
-            type="text"
-            class="form-control"
-            id="category"
-            name="category"
-            placeholder="Course Category"
-            value="{{ form.category.value|default_if_none:'' }}"
-            required
-          />
-          <label for="category">Course Category</label>
-        </div>
-
-        <div class="form-floating mb-3">
-          <input
-            type="text"
-            class="form-control"
-            id="duration"
-            name="duration"
-            placeholder="Course Duration"
-            value="{{ form.duration.value|default_if_none:'' }}"
-            required
-          />
-          <label for="duration">Course Duration</label>
-        </div>
-
-        <div class="form-floating mb-3">
-          <input
-            type="date"
-            class="form-control"
-            id="start_date"
-            name="start_date"
-            value="{{ form.start_date.value|default_if_none:'' }}"
-          />
-          <label for="start_date">Course Start Date</label>
-        </div>
-
-        <div class="form-floating mb-3">
-          <select class="form-control" id="instructor" name="instructor" required>
-            {% for user in form.instructor.field.queryset %}
-              <option value="{{ user.id }}" {% if form.instructor.value == user.id %}selected{% endif %}>
-                {{ user.username }}
-              </option>
-            {% endfor %}
-          </select>
-          <label for="instructor">Instructor</label>
-        </div>
-
-        <div class="form-check mb-3">
-          <input
-            type="checkbox"
-            class="form-check-input"
-            id="is_published"
-            name="is_published"
-            {% if form.is_published.value %}checked{% endif %}
-          />
-          <label class="form-check-label" for="is_published">Published</label>
-        </div>
-
-        <button type="submit" class="btn btn-success w-100 mt-3">
-          {% if form.instance.pk %}Update{% else %}Create{% endif %} Course
-        </button>
-        <a href="{% url 'course_list' %}" class="btn btn-secondary w-100 mt-2">Cancel</a>
-      </form>
+        </svg>
+        <small class="d-block mb-3 text-body-secondary"
+          >&copy; 2017–2024</small
+        >
+      </div>
+      <div class="col-6 col-md">
+        <h5>Features</h5>
+        <ul class="list-unstyled text-small">
+          <li>
+            <a class="link-secondary text-decoration-none" href="#"
+              >Cool stuff</a
+            >
+          </li>
+          <li>
+            <a class="link-secondary text-decoration-none" href="#"
+              >Random feature</a
+            >
+          </li>
+          <li>
+            <a class="link-secondary text-decoration-none" href="#"
+              >Team feature</a
+            >
+          </li>
+          <li>
+            <a class="link-secondary text-decoration-none" href="#"
+              >Stuff for developers</a
+            >
+          </li>
+          <li>
+            <a class="link-secondary text-decoration-none" href="#"
+              >Another one</a
+            >
+          </li>
+          <li>
+            <a class="link-secondary text-decoration-none" href="#"
+              >Last time</a
+            >
+          </li>
+        </ul>
+      </div>
+      <div class="col-6 col-md">
+        <h5>Resources</h5>
+        <ul class="list-unstyled text-small">
+          <li>
+            <a class="link-secondary text-decoration-none" href="#"
+              >Resource name</a
+            >
+          </li>
+          <li>
+            <a class="link-secondary text-decoration-none" href="#"
+              >Resource</a
+            >
+          </li>
+          <li>
+            <a class="link-secondary text-decoration-none" href="#"
+              >Another resource</a
+            >
+          </li>
+          <li>
+            <a class="link-secondary text-decoration-none" href="#"
+              >Final resource</a
+            >
+          </li>
+        </ul>
+      </div>
     </div>
-    
-  </body>
+  </footer>
+
+</body>
+
 </html>
