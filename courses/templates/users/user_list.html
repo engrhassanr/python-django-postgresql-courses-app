@@ -44,8 +44,9 @@
       </a>
 
       <table class="table table-bordered">
-        <thead>
+        <thead class="table-dark">
           <tr>
+            <th>ID</th>
             <th>Username</th>
             <th>Email</th>
             <th>Role</th>
@@ -55,16 +56,26 @@
         <tbody>
           {% for user in users %}
           <tr>
+            <td>{{ user.id }}</td>
             <td>{{ user.username }}</td>
             <td>{{ user.email }}</td>
-            <td>{{ user.profile.role }}</td>
-            <!-- Display role -->
+            <td>{{ request.session.role }}</td>
             <td>
               <a
-                href="{% url 'update_role' user.id %}"
-                class="btn btn-warning btn-sm"
-                >Update Role</a
+                href="{% url 'edit_user' user.id %}"
+                class="btn btn-primary btn-sm"
+                >Edit</a
               >
+              <form
+                method="POST"
+                action="{% url 'delete_user' user.id %}"
+                style="display: inline"
+              >
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-sm">
+                  Delete
+                </button>
+              </form>
             </td>
           </tr>
           {% endfor %}
