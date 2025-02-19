@@ -327,14 +327,17 @@
       crossorigin="anonymous"
     ></script>
     <script>
-      const descriptionElement = document.querySelector(".trim-character");
-      const fullDescription = descriptionElement.textContent;
-      const shortDescription =
-        fullDescription.length > 100
-          ? fullDescription.substring(0, 100) + "..."
-          : fullDescription;
+      document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".trim-character").forEach((element) => {
+          const fullDescription = element.textContent.trim();
+          const shortDescription =
+            fullDescription.length > 100
+              ? fullDescription.substring(0, 100) + "..."
+              : fullDescription;
 
-      descriptionElement.textContent = shortDescription;
+          element.textContent = shortDescription;
+        });
+      });
     </script>
   </body>
 </html>
