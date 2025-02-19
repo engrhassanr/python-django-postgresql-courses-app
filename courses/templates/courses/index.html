@@ -188,7 +188,8 @@
               </div>
               <div class="px-4 my-3">
                 <h2 class="font-md">{{ course.summary }}</h2>
-                <p class="lead">{{ course.description }}</p>
+
+                <p class="lead trim-character">{{ course.description }}</p>
               </div>
               <div class="pb-4">
                 <div
@@ -325,5 +326,15 @@
       integrity="sha384-YvpcrYf0tY3lHB60NNkm6hS9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
+    <script>
+      const descriptionElement = document.querySelector(".trim-character");
+      const fullDescription = descriptionElement.textContent;
+      const shortDescription =
+        fullDescription.length > 100
+          ? fullDescription.substring(0, 100) + "..."
+          : fullDescription;
+
+      descriptionElement.textContent = shortDescription;
+    </script>
   </body>
 </html>
